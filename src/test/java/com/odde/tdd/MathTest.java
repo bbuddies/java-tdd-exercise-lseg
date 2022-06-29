@@ -9,15 +9,19 @@ public class MathTest {
   private final Math target = new Math();
 
   @Test
-  public void testNonPrimeNumber() {
-    Assert.assertEquals("[]", Arrays.toString(target.decomposePrimeNumber(1)));
-    Assert.assertEquals("[15733]", Arrays.toString(target.decomposePrimeNumber(15733)));
+  public void hasNoPrimeNumber() {
+    Assert.assertEquals("[]", Arrays.toString(target.getPrimeNumbers(1)));
   }
 
   @Test
-  public void testPrimeNumber() {
-    Assert.assertEquals("[2]", Arrays.toString(target.decomposePrimeNumber(2)));
-    Assert.assertEquals("[2, 2, 2]", Arrays.toString(target.decomposePrimeNumber(8)));
-    Assert.assertEquals("[3, 3, 3, 37]", Arrays.toString(target.decomposePrimeNumber(999)));
+  public void hasOnePrimeNumber() {
+    Assert.assertEquals("[2]", Arrays.toString(target.getPrimeNumbers(2)));
+    Assert.assertEquals("[15733]", Arrays.toString(target.getPrimeNumbers(15733)));
+  }
+
+  @Test
+  public void hasMultiplePrimeNumbers() {
+    Assert.assertEquals("[2, 2, 2]", Arrays.toString(target.getPrimeNumbers(8)));
+    Assert.assertEquals("[3, 3, 3, 37]", Arrays.toString(target.getPrimeNumbers(999)));
   }
 }

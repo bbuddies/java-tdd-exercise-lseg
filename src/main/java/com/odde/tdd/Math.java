@@ -3,7 +3,7 @@ package com.odde.tdd;
 import java.util.ArrayList;
 
 public class Math {
-  public int[] decomposePrimeNumber(int number) {
+  public int[] getPrimeNumbers(int number) {
     if (number <= 1) {
       return new int[]{};
     }
