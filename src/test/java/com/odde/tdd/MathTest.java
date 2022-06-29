@@ -16,7 +16,7 @@ public class MathTest {
   @Test
   public void hasOnePrimeNumber() {
     Assert.assertEquals("[2]", Arrays.toString(target.getPrimeNumbers(2)));
-    Assert.assertEquals("[15733]", Arrays.toString(target.getPrimeNumbers(15733)));
+    Assert.assertEquals("[2147483647]", Arrays.toString(target.getPrimeNumbers(2147483647)));
   }
 
   @Test

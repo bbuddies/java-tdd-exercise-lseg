@@ -10,7 +10,7 @@ public class Math {
     int acc = 2;
     int quotient = number;
     ArrayList<Integer> result = new ArrayList<>();
-    while (acc < quotient) {
+    while (acc <= quotient / 2) {
       if (quotient % acc == 0) {
         result.add(acc);
         quotient = quotient / acc;
@@ -19,7 +19,7 @@ public class Math {
         acc++;
       }
     }
-    result.add(acc);
+    result.add(quotient);
     return result.stream().mapToInt(i -> i).toArray();
   }
 }
