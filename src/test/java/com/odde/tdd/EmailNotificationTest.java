@@ -2,9 +2,9 @@ package com.odde.tdd;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -19,6 +19,7 @@ public class EmailNotificationTest {
         EmailNotification emailNotification = new EmailNotification(outbox);
         emailNotification.welcome("zbcjackson@gmail.com");
 //        ((MockOutbox)mockOutbox).verify();
+
         ArgumentCaptor<Email> argument = ArgumentCaptor.forClass(Email.class);
         verify(outbox).send(argument.capture());
         assertEquals("Welcome", argument.getValue().getTitle());
