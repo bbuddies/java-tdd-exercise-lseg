@@ -11,8 +11,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class BudgetCalculationTest {
-    BudgetRepo repo = mock(BudgetRepo.class);
-    BudgetCalculation budgetCalculation = new BudgetCalculation(repo);;
+    private BudgetRepo repo = mock(BudgetRepo.class);
+    private BudgetCalculation budgetCalculation = new BudgetCalculation(repo);;
 
     @Test
     public void calculate_one_day_normal_month() {
@@ -65,6 +65,17 @@ public class BudgetCalculationTest {
                 , new Budget(YearMonth.of(2019, 1), 310)
         ));
         assertEquals(360, budgetCalculation.calculate(startTime, endTime));
+    }
+
+    @Test
+    public void calculate_two_years_missing_one_month_and_disorder() {
+        LocalDate startTime = LocalDate.parse("2018-11-29");
+        LocalDate endTime = LocalDate.parse("2019-01-03");
+        when(repo.findAll()).thenReturn(Arrays.asList(
+                new Budget(YearMonth.of(2019, 1), 310)
+                , new Budget(YearMonth.of(2018, 12), 310)
+        ));
+        assertEquals(340, budgetCalculation.calculate(startTime, endTime));
     }
 
 }

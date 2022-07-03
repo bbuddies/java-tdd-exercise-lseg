@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class BudgetCalculation {
 
@@ -29,11 +32,17 @@ public class BudgetCalculation {
         int startDay = startTime.getDayOfMonth();
         int endDay = endTime.getDayOfMonth();
         List<Budget> budgetList = budgetRepo.findAll();
+        Map<YearMonth, Budget> budgetMap = budgetList.stream().collect(Collectors.toMap(Budget::getMonth, Function.identity()));
         for (int i = 0; !startMonth.isAfter(endMonth); ++i) {
-            Budget budget = budgetList.get(i);
             if (i > 0) {
                 startTime = startTime.plus(1, ChronoUnit.MONTHS);
                 startMonth = YearMonth.of(startTime.getYear(), startTime.getMonth());
+            }
+            Budget budget = budgetMap.get(startMonth);
+            if(budget == null) {
+                startDay = 1;
+                System.out.println("WARNING: No budget for "+ startMonth + " so that there is no budget for this month");
+                continue;
             }
             if (startMonth.isBefore(endMonth)) {
                 totalBudget += calculateOneMonth(budget, startDay, budget.getMonth().lengthOfMonth());
