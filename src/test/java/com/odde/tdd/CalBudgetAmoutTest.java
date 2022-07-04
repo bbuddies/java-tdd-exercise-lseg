@@ -15,15 +15,11 @@ public class CalBudgetAmoutTest {
 
   @Before
   public void setUp() {
-    calBudgetAmoutUnderTest = new CalBudgetAmout();
+    calBudgetAmoutUnderTest = new CalBudgetAmout(new MockBudgetRepo());
   }
 
   @Test
   public void testCalBudgetAmount() {
-    List<Budget> budgetList = Arrays.asList(new Budget(YearMonth.of(2020, 5), 3100),
-                                            new Budget(YearMonth.of(2020, 6), 300),
-                                            new Budget(YearMonth.of(2020, 7), 310));
-    calBudgetAmoutUnderTest.setBudgetList(budgetList);
     assertEquals(0, calBudgetAmoutUnderTest.CalBudgetAmount(LocalDate.of(2020, 5, 1),
         LocalDate.of(2020, 4, 1)));
     assertEquals(100, calBudgetAmoutUnderTest.CalBudgetAmount(LocalDate.of(2020, 5, 1),
@@ -40,5 +36,20 @@ public class CalBudgetAmoutTest {
         LocalDate.of(2020, 8, 5)));
     assertEquals(440, calBudgetAmoutUnderTest.CalBudgetAmount(LocalDate.of(2020, 5, 31),
         LocalDate.of(2020, 7, 4)));
+    assertEquals(5810, calBudgetAmoutUnderTest.CalBudgetAmount(LocalDate.of(2019, 11, 11),
+        LocalDate.of(2021, 2, 10)));
+  }
+
+  public class MockBudgetRepo implements BudgetRepo {
+
+    @Override
+    public List<Budget> findAll() {
+      List<Budget> budgetList = Arrays.asList(new Budget(YearMonth.of(2019, 11), 3000),
+          new Budget(YearMonth.of(2020, 5), 3100),
+          new Budget(YearMonth.of(2020, 6), 300),
+          new Budget(YearMonth.of(2020, 7), 310),
+          new Budget(YearMonth.of(2021, 2), 280));
+      return budgetList;
+    }
   }
 }
