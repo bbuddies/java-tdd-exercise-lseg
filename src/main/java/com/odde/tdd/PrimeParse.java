@@ -13,11 +13,13 @@ public class PrimeParse {
       arr = new Integer[ testList.size() ];
       return testList.toArray(arr);
     }
+    int j = 2;
     while(num > 1) {
-      for(int i = 2; i <= num; i ++) {
+      for(int i = j; i <= num; i ++) {
         if(num % i == 0) {
           testList.add(i);
           num = num/i;
+          j = i;
           break;
         }
       }
