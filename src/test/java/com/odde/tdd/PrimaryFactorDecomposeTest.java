@@ -1,7 +1,9 @@
 package com.odde.tdd;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -49,6 +51,7 @@ public class PrimaryFactorDecomposeTest {
     }
 
     @Test
+    @Ignore
     public void test_decompose_big_number() {
         long startTime = System.nanoTime();
         List<Long> list = PrimaryFactorDecompose.decompose_fast(1232423232232321123L);
