@@ -26,6 +26,9 @@ public class BudgetCalculation {
     }
 
     public long calculate(LocalDate startTime, LocalDate endTime) {
+        if(startTime.isAfter(endTime)) {
+            throw new IllegalArgumentException("startTime should be before than endTime.");
+        }
         long totalBudget = 0;
         YearMonth startMonth = YearMonth.of(startTime.getYear(), startTime.getMonth());
         YearMonth endMonth = YearMonth.of(endTime.getYear(), endTime.getMonth());

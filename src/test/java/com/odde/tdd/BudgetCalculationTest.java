@@ -78,4 +78,11 @@ public class BudgetCalculationTest {
         assertEquals(340, budgetCalculation.calculate(startTime, endTime));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void calculate_argument_error() {
+        LocalDate startTime = LocalDate.parse("2018-11-02");
+        LocalDate endtime = LocalDate.parse("2018-10-01");
+        budgetCalculation.calculate(startTime, endtime);
+    }
+
 }
