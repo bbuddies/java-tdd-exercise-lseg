@@ -41,15 +41,20 @@ public class BudgetCalculation {
             Budget budget = budgetMap.get(startMonth);
             if(budget == null) {
                 startDay = 1;
-                System.out.println("WARNING: No budget for "+ startMonth + " so that there is no budget for this month");
+                System.out.println("WARNING: No budget for "+ startMonth + " so that the month's budget is 0");
                 continue;
             }
-            if (startMonth.isBefore(endMonth)) {
-                totalBudget += calculateOneMonth(budget, startDay, budget.getMonth().lengthOfMonth());
-                startDay = 1;
-            } else if (startMonth.equals(endMonth)) {
-                totalBudget += calculateOneMonth(budget, startDay, endDay);
-                break;
+            if(i == 0 || startMonth.equals(endMonth)) {
+                // first month or end month
+                if (startMonth.isBefore(endMonth)) {
+                    totalBudget += calculateOneMonth(budget, startDay, budget.getMonth().lengthOfMonth());
+                    startDay = 1;
+                } else if (startMonth.equals(endMonth)) {
+                    totalBudget += calculateOneMonth(budget, startDay, endDay);
+                    break;
+                }
+            } else {
+                totalBudget += budget.getAmount();
             }
         }
         return totalBudget;
