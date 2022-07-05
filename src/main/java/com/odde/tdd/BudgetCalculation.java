@@ -1,5 +1,6 @@
 package com.odde.tdd;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
@@ -14,18 +15,10 @@ public class BudgetCalculation {
         this.budgetRepo = budgetRepo;
     }
 
-    private long calculateOneMonth(Budget budget, int startDay, int endDay) {
-        int totalDays = endDay - startDay + 1;
-        int monthDays = budget.getMonth().lengthOfMonth();
-        return totalDays * budget.getAmount() / monthDays;
-    }
-
     public long calculate(Period period) {
         long totalBudget = 0;
         YearMonth startMonth = period.getStartMonth();
         YearMonth endMonth = period.getEndMonth();
-        int startDay = period.getStartDay();
-        int endDay = period.getEndDay();
         List<Budget> budgetList = budgetRepo.findAll();
         Map<YearMonth, Budget> budgetMap = budgetList.stream().collect(Collectors.toMap(Budget::getMonth, Function.identity()));
         YearMonth cursorMonth = startMonth;
@@ -37,7 +30,7 @@ public class BudgetCalculation {
                 continue;
             }
             if (!cursorMonth.isAfter(endMonth)) {
-                totalBudget += calculateOneMonth(budget, cursorMonth.equals(startMonth) ? startDay : 1, cursorMonth.equals(endMonth) ? endDay : budget.getMonth().lengthOfMonth());
+                totalBudget += budget.getOverlappingAmount(period);
             }
         }
         return totalBudget;

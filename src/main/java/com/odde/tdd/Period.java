@@ -38,4 +38,10 @@ public class Period {
     int getEndDay() {
         return endTime.getDayOfMonth();
     }
+
+    int getOverlappingDayCount(Period another) {
+        LocalDate startDay = startTime.isAfter(another.startTime) ? startTime : another.startTime;
+        LocalDate endDay = endTime.isBefore(another.endTime) ? endTime : another.endTime;
+        return startDay.until(endDay).getDays() + 1;
+    }
 }

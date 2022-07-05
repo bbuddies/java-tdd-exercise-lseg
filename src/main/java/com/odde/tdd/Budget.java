@@ -1,5 +1,7 @@
 package com.odde.tdd;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.time.LocalDate;
 import java.time.YearMonth;
 
@@ -18,5 +20,23 @@ public class Budget {
 
     public long getAmount() {
         return amount;
+    }
+
+    LocalDate getStartDate() {
+        return month.atDay(1);
+    }
+
+    LocalDate getEndDate() {
+        return month.atEndOfMonth();
+    }
+
+    Period getPeriod() {
+        return new Period(getStartDate(), getEndDate());
+    }
+
+    long getOverlappingAmount(Period period) {
+        int totalDays = period.getOverlappingDayCount(getPeriod());
+        int monthDays = getMonth().lengthOfMonth();
+        return totalDays * getAmount() / monthDays;
     }
 }
