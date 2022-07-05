@@ -33,23 +33,16 @@ public class BudgetCalculation {
         int endDay = endTime.getDayOfMonth();
         List<Budget> budgetList = budgetRepo.findAll();
         Map<YearMonth, Budget> budgetMap = budgetList.stream().collect(Collectors.toMap(Budget::getMonth, Function.identity()));
-        for (int i = 0; !startMonth.isAfter(endMonth); ++i) {
-            if (i > 0) {
-                startTime = startTime.plus(1, ChronoUnit.MONTHS);
-                startMonth = YearMonth.of(startTime.getYear(), startTime.getMonth());
-            }
-            Budget budget = budgetMap.get(startMonth);
+        YearMonth cursorMonth = startMonth;
+        for (int i = 0; !cursorMonth.isAfter(endMonth); ++i) {
+            cursorMonth = startMonth.plusMonths(i);
+            Budget budget = budgetMap.get(cursorMonth);
             if(budget == null) {
-                startDay = 1;
-                System.out.println("WARNING: No budget for "+ startMonth + " so that there is no budget for this month");
+                System.out.println("WARNING: No budget for "+ cursorMonth + " so that there is no budget for this month");
                 continue;
             }
-            if (startMonth.isBefore(endMonth)) {
-                totalBudget += calculateOneMonth(budget, startDay, budget.getMonth().lengthOfMonth());
-                startDay = 1;
-            } else if (startMonth.equals(endMonth)) {
-                totalBudget += calculateOneMonth(budget, startDay, endDay);
-                break;
+            if (!cursorMonth.isAfter(endMonth)) {
+                totalBudget += calculateOneMonth(budget, cursorMonth.equals(startMonth) ? startDay : 1, cursorMonth.equals(endMonth) ? endDay : budget.getMonth().lengthOfMonth());
             }
         }
         return totalBudget;
