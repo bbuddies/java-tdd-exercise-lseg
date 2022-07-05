@@ -1,9 +1,6 @@
 package com.odde.tdd;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.time.LocalDate;
-import java.time.YearMonth;
 
 public class Period {
     private final LocalDate startTime;
@@ -14,34 +11,9 @@ public class Period {
         this.endTime = endTime;
     }
 
-    public LocalDate getStartTime() {
-        return startTime;
-    }
-
-    public LocalDate getEndTime() {
-        return endTime;
-    }
-
-    YearMonth getStartMonth() {
-        return YearMonth.from(startTime);
-    }
-
-    @NotNull
-    YearMonth getEndMonth() {
-        return YearMonth.from(endTime);
-    }
-
-    int getStartDay() {
-        return startTime.getDayOfMonth();
-    }
-
-    int getEndDay() {
-        return endTime.getDayOfMonth();
-    }
-
     int getOverlappingDayCount(Period another) {
         LocalDate startDay = startTime.isAfter(another.startTime) ? startTime : another.startTime;
         LocalDate endDay = endTime.isBefore(another.endTime) ? endTime : another.endTime;
-        return startDay.until(endDay).getDays() + 1;
+        return startDay.isAfter(endDay)? 0 : startDay.until(endDay).getDays() + 1;
     }
 }
