@@ -96,7 +96,9 @@ public class BudgetCalculationTest {
 
 
     private void assertAmount(int expected, String start, String end) {
-        assertEquals(expected, budgetCalculation.calculate(LocalDate.parse(start), LocalDate.parse(end)));
+        LocalDate startTime = LocalDate.parse(start);
+        LocalDate endTime = LocalDate.parse(end);
+        assertEquals(expected, budgetCalculation.calculate(new Period(startTime, endTime)));
     }
 
     private Budget budget(int year, int month, int amount) {
